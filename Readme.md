@@ -24,6 +24,10 @@ Installing requirements:
 ```py
 pip install -r requirements.txt
 ```
+# To run the app,
+```
+python app.py
+```
 
 # Live Project
 https://flaskoshop.gilobyte.com
