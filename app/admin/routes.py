@@ -8,19 +8,19 @@ from ..funcs import admin_only
 admin = Blueprint("admin", __name__, url_prefix="/admin", static_folder="static", template_folder="templates")
 
 @admin.route('/')
-@admin_only
+# @admin_only
 def dashboard():
     orders = Order.query.all()
     return render_template("admin/home.html", orders=orders)
 
 @admin.route('/items')
-@admin_only
+# @admin_only
 def items():
     items = Item.query.all()
     return render_template("admin/items.html", items=items)
 
 @admin.route('/add', methods=['POST', 'GET'])
-@admin_only
+# @admin_only
 def add():
     form = AddItemForm()
 
@@ -40,7 +40,7 @@ def add():
     return render_template("admin/add.html", form=form)
 
 @admin.route('/edit/<string:type>/<int:id>', methods=['POST', 'GET'])
-@admin_only
+# @admin_only
 def edit(type, id):
     if type == "item":
         item = Item.query.get(id)
