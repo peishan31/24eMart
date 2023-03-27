@@ -27,8 +27,9 @@ app.register_blueprint(admin)
 # stripe.api_key = os.environ["STRIPE_PRIVATE"]
 # TODO: set up environment variables in the future
 app.config["SECRET_KEY"] = "123" # TODO: research on what this secret key is for
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://sharedCMEAccess:sharedCMEAccess@db24emart.csxucthsan5l.ap-southeast-1.rds.amazonaws.com"
+# app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://sharedCMEAccess:sharedCMEAccess@db24emart.csxucthsan5l.ap-southeast-1.rds.amazonaws.com"
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:@localhost:3306/24emart'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['MAIL_USERNAME'] = "randomemail@gmail.com" # not functional; TODO: create a dummy email
 app.config['MAIL_PASSWORD'] = "123456" # not functional; TODO: create a dummy email
