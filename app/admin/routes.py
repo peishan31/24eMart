@@ -4,6 +4,7 @@ from ..db_models import Order, Item, db
 from ..admin.forms import AddItemForm, OrderEditForm
 from ..funcs import admin_only
 import boto3
+import uuid
 from botocore.exceptions import NoCredentialsError
 
 admin = Blueprint("admin", __name__, url_prefix="/admin", static_folder="static", template_folder="templates")
@@ -38,11 +39,12 @@ def add():
 
         # Upload image to S3
         image_file = form.image.data
-        image_filename = image_file.filename
+        # image_filename = image_file.filename
+        image_key = str(uuid.uuid4()) + form.image.data.filename
         
         try:
-            s3.upload_fileobj(image_file, S3_BUCKET, image_filename)
-            image_url = f"https://{S3_BUCKET}.s3.amazonaws.com/{image_filename}"
+            s3.upload_fileobj(image_file, S3_BUCKET, image_key)
+            image_url = f"https://{S3_BUCKET}.s3.amazonaws.com/{image_key}"
         except NoCredentialsError:
             print("Credentials not available")
             #image_url = url_for('static', filename=f'uploads/{image_filename}') # ****return error
@@ -83,7 +85,7 @@ def edit(type, id):
             # form.image.data.save('app/static/uploads/' + form.image.data.filename)
             # item.image = url_for('static', filename=f'uploads/{form.image.data.filename}')
             new_image_file = form.image.data
-            new_image_filename = new_image_file.filename
+            new_image_filename = str(uuid.uuid4()) + '.' + new_image_file.filename.split('.')[-1]
 
             # Delete the old image file from S3 bucket
             old_image_filename = item.image.split('/')[-1]
