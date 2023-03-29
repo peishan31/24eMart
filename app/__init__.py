@@ -27,16 +27,15 @@ app.register_blueprint(admin)
 # stripe.api_key = os.environ["STRIPE_PRIVATE"]
 # TODO: set up environment variables in the future
 app.config["SECRET_KEY"] = "123" # TODO: research on what this secret key is for
-#app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://sharedCMEAccess:sharedCMEAccess@db24emart.csxucthsan5l.ap-southeast-1.rds.amazonaws.com"
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///test.db"
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:@localhost:3306/24emart'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['MAIL_USERNAME'] = "randomemail@gmail.com" # not functional; TODO: create a dummy email
 app.config['MAIL_PASSWORD'] = "123456" # not functional; TODO: create a dummy email
 app.config['MAIL_SERVER'] = "smtp.googlemail.com"
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_PORT'] = 587
-stripe.api_key = "sk_test_51MpZMRJRBOlt2OzTF2WW4p0GBJgEH3pZGmM2lrUejwjjQ0w3B2BeynxsWQbYVOIss5Nd8sexCy2NwQsLH7bZIxzW00ffqyZDP1" # TODO: set up stripe account
+stripe.api_key = "123" # TODO: set up stripe account
 
 Bootstrap(app)
 db.init_app(app)
@@ -226,7 +225,7 @@ def stripe_webhook():
 
 	payload = request.get_data()
 	sig_header = request.environ.get('HTTP_STRIPE_SIGNATURE')
-	ENDPOINT_SECRET = "whsec_f2e18d92c3c0e2ffbe8d8ea8a934107e3b1d6c4ad32e172a10121299bb4408eb"
+	ENDPOINT_SECRET = os.environ.get('ENDPOINT_SECRET')
 	event = None
 
 	try:
