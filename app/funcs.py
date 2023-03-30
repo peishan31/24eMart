@@ -12,7 +12,8 @@ mail = Mail()
 
 def send_confirmation_email(user_email) -> None:
 	""" sends confirmation email """
-	confirm_serializer = URLSafeTimedSerializer(os.environ["SECRET_KEY"])
+	#confirm_serializer = URLSafeTimedSerializer(os.environ["SECRET_KEY"])
+	confirm_serializer = URLSafeTimedSerializer('c9ccce3d599b679d01c38d72eb793e7c')
 	confirm_url = url_for(
 						'confirm_email',
 						token=confirm_serializer.dumps(user_email,
@@ -22,7 +23,8 @@ def send_confirmation_email(user_email) -> None:
 	msg = Message(
 		'Confirm Your Email Address',
 		recipients=[user_email],
-		sender=("Flask-O-shop Email Confirmation", os.environ["EMAIL"]),
+		# sender=("Flask-O-shop Email Confirmation", os.environ["EMAIL"]),
+		sender=("Flask-O-shop Email Confirmation", 'zhiyi456@gmail.com'),
 		html=html,
 	)
 	mail.send(msg)
