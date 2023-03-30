@@ -30,7 +30,7 @@ app.register_blueprint(admin)
 # stripe.api_key = os.environ["STRIPE_PRIVATE"]
 # TODO: set up environment variables in the future
 
-#app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://admin:sharedCMEAccess@mysqldb.csxucthsan5l.ap-southeast-1.rds.amazonaws.com:3306/mysqldb"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://admin:sharedCMEAccess@mysqldb.csxucthsan5l.ap-southeast-1.rds.amazonaws.com:3306/mysqldb"
 #app.config['SQLALCHEMY_DATABASE_URI'] = connection
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:@localhost:3306/24emart'
 #app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///test.db"
