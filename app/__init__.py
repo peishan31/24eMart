@@ -11,6 +11,9 @@ from .funcs import mail, send_confirmation_email, fulfill_order
 from dotenv import load_dotenv
 from .admin.routes import admin
 import pymysql
+import boto3
+import uuid
+from botocore.config import Config
 
 load_dotenv()
 app = Flask(__name__)
@@ -27,9 +30,9 @@ app.register_blueprint(admin)
 # stripe.api_key = os.environ["STRIPE_PRIVATE"]
 # TODO: set up environment variables in the future
 app.config["SECRET_KEY"] = "123" # TODO: research on what this secret key is for
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://admin:sharedCMEAccess@rdspublic.csxucthsan5l.ap-southeast-1.rds.amazonaws.com:3306/rdspublic"
+#app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://admin:sharedCMEAccess@rdspublic.csxucthsan5l.ap-southeast-1.rds.amazonaws.com:3306/rdspublic"
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:@localhost:3306/24emart'
-# app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///test.db"
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///test.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['MAIL_USERNAME'] = "randomemail@gmail.com" # not functional; TODO: create a dummy email
 app.config['MAIL_PASSWORD'] = "123456" # not functional; TODO: create a dummy email
@@ -56,10 +59,64 @@ def inject_now():
 def load_user(user_id):
 	return User.query.get(user_id)
 
+S3_BUCKET = 'elasticbeanstalk-ap-southeast-1-645583429901'	
+AWS_ACCESS_KEY_ID = 'AKIAZMT6FMEG2AH5MEF2'
+AWS_SECRET_ACCESS_KEY = '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'
+#s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+S3_REGION = 'ap-southeast-1'
+S3_config = Config(signature_version='s3v4')
+
 @app.route("/")
 def home():
-	items = Item.query.all()
-	return render_template("home.html", items=items)
+
+	# s3 = boto3.client('s3')
+	s3_client = boto3.client('s3', region_name= "eu-central-1", aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY, config=S3_config)
+    # return render_template("index.html", **context)
+	preassigned_urls = []
+	
+	objects = s3_client.list_objects_v2(Bucket=S3_BUCKET)
+	image_urls = []
+	for obj in objects['Contents']:
+		if obj['Key'].endswith('.jpg') or obj['Key'].endswith('.png'):
+			url = s3_client.generate_presigned_url(
+				'get_object',
+				Params={'Bucket': 'my-bucket-name', 'Key': obj['Key']},
+				ExpiresIn=3600
+			)
+			image_urls.append(url)
+
+	print("*****image_urls", image_urls)
+	return render_template("home.html", preassigned_urls=image_urls)
+
+	# items = Item.query.all()
+	
+	# for item in items:
+	# 	context = {"s3": s3, "bucket": S3_BUCKET, "key": "503536a8-3047-4ff8-aaab-241df9a4d8757"}
+	# 	preassigned_urls.append(context)
+	# return render_template("home.html", items=items, preassigned_urls=preassigned_urls)
+# import boto3
+
+# @app.route('/list_images')
+# def list_images():
+#     # Create an S3 client
+#     s3 = boto3.client('s3')
+
+#     # Get a list of objects in the bucket
+#     objects = s3.list_objects_v2(Bucket='my-bucket-name')
+
+#     # Generate pre-signed URLs for each image file
+#     image_urls = []
+#     for obj in objects['Contents']:
+#         if obj['Key'].endswith('.jpg') or obj['Key'].endswith('.png'):
+#             url = s3.generate_presigned_url(
+#                 'get_object',
+#                 Params={'Bucket': 'my-bucket-name', 'Key': obj['Key']},
+#                 ExpiresIn=3600
+#             )
+#             image_urls.append(url)
+
+#     # Pass the list of pre-signed URLs to the template
+#     return render_template('list_images.html', image_urls=image_urls)
 
 @app.route("/login", methods=['POST', 'GET'])
 def login():
