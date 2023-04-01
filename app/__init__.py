@@ -30,7 +30,7 @@ app.register_blueprint(admin)
 # app.config['MAIL_PORT'] = 587
 # stripe.api_key = os.environ["STRIPE_PRIVATE"]
 # TODO: set up environment variables in the future
-
+#
 
 
 app.config["SECRET_KEY"] = "123" # TODO: research on what this secret key is for
