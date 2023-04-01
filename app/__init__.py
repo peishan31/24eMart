@@ -12,6 +12,7 @@ from dotenv import load_dotenv
 from .admin.routes import admin
 import pymysql
 
+	
 load_dotenv()
 app = Flask(__name__)
 app.register_blueprint(admin)
@@ -26,8 +27,11 @@ app.register_blueprint(admin)
 # app.config['MAIL_PORT'] = 587
 # stripe.api_key = os.environ["STRIPE_PRIVATE"]
 # TODO: set up environment variables in the future
+
+
+
 app.config["SECRET_KEY"] = "123" # TODO: research on what this secret key is for
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://admin:sharedCMEAccess@rdspublic.csxucthsan5l.ap-southeast-1.rds.amazonaws.com:3306/rdspublic"
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:sharedCMEAccess@rdspublic.csxucthsan5l.ap-southeast-1.rds.amazonaws.com:3306/24emart'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:@localhost:3306/24emart'
 # app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///test.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -38,8 +42,9 @@ app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_PORT'] = 587
 stripe.api_key = "sk_test_51MpZMRJRBOlt2OzTF2WW4p0GBJgEH3pZGmM2lrUejwjjQ0w3B2BeynxsWQbYVOIss5Nd8sexCy2NwQsLH7bZIxzW00ffqyZDP1" # TODO: set up stripe account
 
-Bootstrap(app)
+
 db.init_app(app)
+Bootstrap(app)
 mail.init_app(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
