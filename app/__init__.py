@@ -35,7 +35,6 @@ app.register_blueprint(admin)
 
 app.config["SECRET_KEY"] = "123" # TODO: research on what this secret key is for
 
-# mysql://user:password@database.us-west-2.rds.amazonaws.com:3306/mydatabase
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:12345678@test-rds-db.cuhbbhdhhkdt.ap-southeast-1.rds.amazonaws.com:3306/testdb'
 #app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://admin:sharedCMEAccess@rdspublic.csxucthsan5l.ap-southeast-1.rds.amazonaws.com:3306/rdspublic"
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:@localhost:3306/24emart'
