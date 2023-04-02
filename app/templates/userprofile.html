@@ -5,58 +5,42 @@
 {% endblock %}
 
 {% block content %}
-	{% with msgs =  get_flashed_messages(with_categories=True) %}
-	{% for c, msg in msgs %}
-		{% if c == 'error' %}
-			<div class="flash-error">
-		{% else %}
-			<div class="success">
-		{% endif %}
-			{{ msg | safe}}</div><br>
-	{% endfor %}
-	{% endwith %}
-
-	{% if search %}
-	<h3>Search results for "{{ query }}":</h3>
-	{% else %}
-	<h3>New Arrivals</h3>
-	<br>
-	<div class="items">
-
-		{% for url in preassigned_urls %}
-			<img src="{{ url }}" />
-		{% endfor %}
-	</div>
-
-	<br><br><h3>Most Popular</h3>
+	<br><br><h3>Profile</h3>
 	{% endif %}
 	<br>
-	<div class="items">
-	{% for item in items %}
-	<a href="{{ url_for('item', id=item.id) }}">
-		<div class="item">
-			<div class="item-wrapper">
-				<div class="img-wrapper">
-					<img src="{{ item.image }}" class="pic">
-				</div>
-				{{ item.name }}
-				<span class="right-item">${{ item.price }}</span><br>
-					<i class="fa fa-star checked"></i>
-					<i class="fa fa-star checked"></i>
-					<i class="fa fa-star checked"></i>
-					<i class="fa fa-star checked"></i>
-					<i class="fa fa-star checked"></i>
-					<span class="text-muted" >({{ range(1, 51) | random }})</span>
-			</div>
-		</div>
+	<table>
+  <tr>
+    <td>User ID</td>
+    <td colspan="2">1 (TBR)</td>
+  </tr>
+  <tr>
+    <td>Name</td>
+    <td colspan="2">customer1 (TBR)</td>
+  </tr>
+  <tr>
+      <th rowspan="2">Contact Information</th>
+      <td>Phone Number</td>
+      <td>91234567 (TBR)</td>
+    </tr>
+    <td>Email Address</td>
+      <td>customer1@gmail.com (TBR), confirmed (TBR)</td>
+    <tr>
+    <td>Password</td>
+    <td colspan="2">customer1 (TBR)</td>
+  </tr>
+ <tr>
+      <th rowspan="2">Billing Information</th>
+      <td>Bank Account Number</td>
+      <td>1234567890 (TBR)</td>
+    </tr>
+    <td>Credit Card Number</td>
+      <td>1234567890 (TBR)</td>
+    <tr>
+</table>
+
 	</a>
 	{% endfor %}
 	</div>
 
-	{% if not items %}
-	<div class="flash-error">
-		No items found.<br>
-		<a href="{{ url_for('home') }}">Discover new items</a>
-	</div>
 	{% endif %}
 {% endblock %}
