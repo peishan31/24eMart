@@ -35,9 +35,7 @@ app.register_blueprint(admin)
 
 app.config["SECRET_KEY"] = "123" # TODO: research on what this secret key is for
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:12345678@test-rds-db.cuhbbhdhhkdt.ap-southeast-1.rds.amazonaws.com:3306/testdb'
-#app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://admin:sharedCMEAccess@rdspublic.csxucthsan5l.ap-southeast-1.rds.amazonaws.com:3306/rdspublic"
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:@localhost:3306/24emart'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:12345678@rds-mysql-db.csxucthsan5l.ap-southeast-1.rds.amazonaws.com:3306/rds24emart'
 #app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///test.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['MAIL_USERNAME'] = "randomemail@gmail.com" # not functional; TODO: create a dummy email
