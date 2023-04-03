@@ -254,8 +254,8 @@ def create_checkout_session():
 		return str(e)
 	return redirect(checkout_session.url, code=303)
 
-@app.route('/stripe-webhook', methods=['POST'])
-def stripe_webhook():
+@app.route('/webhook', methods=['POST'])
+def webhook():
 
 	if request.content_length > 1024*1024:
 		print("Request too big!")
