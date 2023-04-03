@@ -73,55 +73,8 @@ S3_config = Config(signature_version='s3v4')
 
 @app.route("/")
 def home():
-
-	# s3 = boto3.client('s3')
-	s3_client = boto3.client('s3', region_name= "eu-central-1", aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY, config=S3_config)
-    # return render_template("index.html", **context)
-	preassigned_urls = []
-
-	objects = s3_client.list_objects_v2(Bucket=S3_BUCKET)
-	image_urls = []
-	for obj in objects['Contents']:
-		if obj['Key'].endswith('.jpg') or obj['Key'].endswith('.png'):
-			url = s3_client.generate_presigned_url(
-				'get_object',
-				Params={'Bucket': 'my-bucket-name', 'Key': obj['Key']},
-				ExpiresIn=3600
-			)
-			image_urls.append(url)
-
-	print("*****image_urls", image_urls)
-	return render_template("home.html", preassigned_urls=image_urls)
-
-	# items = Item.query.all()
-	
-	# for item in items:
-	# 	context = {"s3": s3, "bucket": S3_BUCKET, "key": "503536a8-3047-4ff8-aaab-241df9a4d8757"}
-	# 	preassigned_urls.append(context)
-	# return render_template("home.html", items=items, preassigned_urls=preassigned_urls)
-# import boto3
-
-# @app.route('/list_images')
-# def list_images():
-#     # Create an S3 client
-#     s3 = boto3.client('s3')
-
-#     # Get a list of objects in the bucket
-#     objects = s3.list_objects_v2(Bucket='my-bucket-name')
-
-#     # Generate pre-signed URLs for each image file
-#     image_urls = []
-#     for obj in objects['Contents']:
-#         if obj['Key'].endswith('.jpg') or obj['Key'].endswith('.png'):
-#             url = s3.generate_presigned_url(
-#                 'get_object',
-#                 Params={'Bucket': 'my-bucket-name', 'Key': obj['Key']},
-#                 ExpiresIn=3600
-#             )
-#             image_urls.append(url)
-
-#     # Pass the list of pre-signed URLs to the template
-#     return render_template('list_images.html', image_urls=image_urls)
+	items = Item.query.all()
+	return render_template("home.html", items=items)
 
 @app.route("/login", methods=['POST', 'GET'])
 def login():

@@ -56,7 +56,7 @@ def add():
         # form.image.data.save('app/static/uploads/' + form.image.data.filename)
         # image = url_for('static', filename=f'uploads/{form.image.data.filename}')
         price_id = form.price_id.data
-        item = Item(name=name, price=price, category=category, details=details, image=image_key, price_id=price_id)
+        item = Item(name=name, price=price, category=category, details=details, image=image_url, price_id=price_id)
         db.session.add(item)
         db.session.commit()
         flash(f'{name} added successfully!','success')
