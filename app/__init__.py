@@ -254,8 +254,8 @@ def create_checkout_session():
 		return str(e)
 	return redirect(checkout_session.url, code=303)
 
-@app.route('/stripe-webhook', methods=['POST'])
-def stripe_webhook():
+@app.route('/webhook', methods=['POST'])
+def webhook():
 
 	if request.content_length > 1024*1024:
 		print("Request too big!")
@@ -263,7 +263,7 @@ def stripe_webhook():
 
 	payload = request.get_data()
 	sig_header = request.environ.get('HTTP_STRIPE_SIGNATURE')
-	ENDPOINT_SECRET = "whsec_f2e18d92c3c0e2ffbe8d8ea8a934107e3b1d6c4ad32e172a10121299bb4408eb"
+	ENDPOINT_SECRET = "whsec_XaGKdX7hQGL8JqBpLj8bnuMBsPAQh1P1"
 	event = None
 
 	try:
