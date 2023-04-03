@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS `users`, `items`, `cart`, `orders`, `ordered_items`;
 USE `24emart`;
 
 CREATE TABLE `users` (
-	`id` INTEGER NOT NULL, 
+	`id` INTEGER NOT NULL AUTO_INCREMENT, 
 	`name` TEXT NOT NULL, 
 	`email` VARCHAR(50) NOT NULL, 
 	`phone` VARCHAR(50) NOT NULL, 
@@ -58,9 +58,6 @@ CREATE TABLE `ordered_items` (
 );
 
 
-INSERT INTO `users` (`id`, `name` , `email` , `phone` , `password`, `admin`, `email_confirmed`) VALUES 
-(1, 'admin', 'god', '1', '123',  TRUE, TRUE),
-(2, 'test', 'test', '1', '123',  FALSE, TRUE);
 
 INSERT INTO `items` (`id` , `name` , `price` , `category`, `image`, `details`, `price_id`) VALUES 
 (1, 'iPhone12', 799, 'Apple',

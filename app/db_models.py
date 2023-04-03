@@ -16,6 +16,9 @@ class User(UserMixin, db.Model):
 	cart = db.relationship('Cart', backref='buyer')
 	orders = db.relationship("Order", backref='customer')
 
+	def get_name(self):
+		return self.name
+
 	def add_to_cart(self, itemid, quantity):
 		item_to_add = Cart(itemid=itemid, uid=self.id, quantity=quantity)
 		db.session.add(item_to_add)

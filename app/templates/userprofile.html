@@ -1,46 +1,36 @@
 	{% extends "base.html" %}
 
 {% block title %}
-	Home - Flask-O-shop
+	Profile - Flask-O-shop
 {% endblock %}
 
 {% block content %}
 	<br><br><h3>Profile</h3>
-	{% endif %}
+  <!-- 'Name', 'account_number-indec', 'admin-index',
+  'credit_card_number-index','email_confirmed-index',
+  'email-index','gender-index','membership_type-index',
+  'password-index','phone-index' -->
 	<br>
 	<table>
-  <tr>
-    <td>User ID</td>
-    <td colspan="2">1 (TBR)</td>
-  </tr>
-  <tr>
-    <td>Name</td>
-    <td colspan="2">customer1 (TBR)</td>
-  </tr>
-  <tr>
-      <th rowspan="2">Contact Information</th>
-      <td>Phone Number</td>
-      <td>91234567 (TBR)</td>
-    </tr>
-    <td>Email Address</td>
-      <td>customer1@gmail.com (TBR), confirmed (TBR)</td>
     <tr>
-    <td>Password</td>
-    <td colspan="2">customer1 (TBR)</td>
-  </tr>
- <tr>
-      <th rowspan="2">Billing Information</th>
-      <td>Bank Account Number</td>
-      <td>1234567890 (TBR)</td>
+      <td>Name: {{item.Name}}</td>
     </tr>
-    <td>Credit Card Number</td>
-      <td>1234567890 (TBR)</td>
     <tr>
-</table>
+      <td>Credit Card Number: {{item.Credit_card_number}}</td>
+    </tr>
+    <tr>
+      <td>Email: {{item.Email}}</td>
+    </tr>
+    <tr>
+      <td>Gender: {{item.Gender}}</td>
+    </tr>
+    <tr>
+      <td>Phone: {{item.Phone}}</td>
+    </tr>
+  </table>
 
 	</a>
-	{% endfor %}
+
 	</div>
 
-	{% endif %}
 {% endblock %}

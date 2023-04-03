@@ -1,6 +1,6 @@
 import os, stripe, json
 from datetime import datetime
-from flask import Flask, render_template, redirect, url_for, flash, request, abort
+from flask import Flask, render_template, redirect, url_for, flash, request, abort, jsonify
 from flask_bootstrap import Bootstrap
 from .forms import LoginForm, RegisterForm
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -14,7 +14,7 @@ import pymysql
 import boto3
 import uuid
 from botocore.config import Config
-
+from app import controller as dynamodb
 	
 load_dotenv()
 app = Flask(__name__)
@@ -35,9 +35,9 @@ app.register_blueprint(admin)
 
 app.config["SECRET_KEY"] = "123" # TODO: research on what this secret key is for
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:12345678@test-rds-db.cuhbbhdhhkdt.ap-southeast-1.rds.amazonaws.com:3306/testdb'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:12345678@test-rds-db.cuhbbhdhhkdt.ap-southeast-1.rds.amazonaws.com:3306/testdb'
 #app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://admin:sharedCMEAccess@rdspublic.csxucthsan5l.ap-southeast-1.rds.amazonaws.com:3306/rdspublic"
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:@localhost:3306/24emart'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:@localhost:3306/24emart'
 #app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///test.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['MAIL_USERNAME'] = "randomemail@gmail.com" # not functional; TODO: create a dummy email
@@ -80,7 +80,7 @@ def home():
 	s3_client = boto3.client('s3', region_name= "eu-central-1", aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY, config=S3_config)
     # return render_template("index.html", **context)
 	preassigned_urls = []
-	
+
 	objects = s3_client.list_objects_v2(Bucket=S3_BUCKET)
 	image_urls = []
 	for obj in objects['Contents']:
@@ -154,19 +154,40 @@ def register():
 		if user:
 			flash(f"User with email {user.email} already exists!!<br> <a href={url_for('login')}>Login now!</a>", "error")
 			return redirect(url_for('register'))
-		new_user = User(name=form.name.data,
-						email=form.email.data,
-						password=generate_password_hash(
+		hashed_password=generate_password_hash(
 									form.password.data,
 									method='pbkdf2:sha256',
-									salt_length=8),
+									salt_length=8)
+		new_user = User(name=form.name.data,
+						email=form.email.data,
+						password= hashed_password,
 						phone=form.phone.data)
 		db.session.add(new_user)
 		db.session.commit()
+		# write to dynamodb
+		response = dynamodb.create_user(form.name.data, form.email.data, form.phone.data, hashed_password)   
+
 		# send_confirmation_email(new_user.email)
 		flash('Thanks for registering! You may login now.', 'success')
 		return redirect(url_for('login'))
 	return render_template("register.html", form=form)
+
+@app.route('/profile', methods=['GET'])
+@login_required
+def profile():
+	#print("Home page")
+	#print(current_user.get_name())
+	response = dynamodb.get_user(current_user.get_name())
+	if (response['ResponseMetadata']['HTTPStatusCode'] ==200):
+		if ('Item' in response):
+			return render_template("userprofile.html", item = response['Item'])
+		return {'msg': 'Item not found!'}
+	return {
+		'msg': 'error occurred',
+		'response': response
+	}
+
+
 
 @app.route('/confirm/<token>')
 def confirm_email(token):
@@ -312,3 +333,7 @@ def stripe_webhook():
 
 	# Passed signature verification
 	return {}, 200
+
+
+
+

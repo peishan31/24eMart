@@ -34,7 +34,7 @@
               <a class="nav-link" href="{{ url_for('login') }}">Login</a>
             </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('userprofile') }}">Profile</a>
+            <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
           </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('register') }}">Register</a>
@@ -58,6 +58,7 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <span class="nav-link text-muted">{{ current_user.name }}</a>
               <div class="dropdown-divider"></div>
+              <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
               <a class="nav-link" href="{{ url_for('orders') }}">Orders</a>
               {% if current_user.admin == 1 %}
               <a class="nav-link" href="{{ url_for('admin.dashboard') }}">Admin</a>
