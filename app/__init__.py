@@ -17,7 +17,8 @@ from botocore.config import Config
 from app import controller as dynamodb
 import requests
 from .db_models import Order, Ordered_item, db, User
-	
+import requests
+
 load_dotenv()
 app = Flask(__name__)
 app.register_blueprint(admin)
@@ -74,11 +75,20 @@ AWS_SECRET_ACCESS_KEY = 'jbDwEGvCQgp+bNoj5ZR6p0vhTk5YzXDpr7Eakpb3'
 S3_REGION = 'ap-southeast-1'
 S3_config = Config(signature_version='s3v4')
 
+# replace 'https://api-gateway-url' with the actual URL of your AWS API Gateway
+getDashboardUrl = 'https://vonjfookj7.execute-api.ap-southeast-1.amazonaws.com/test/quicksight'
+
+# make the API call using the requests library
+response = requests.get(getDashboardUrl)
+
+# access the response content
+dashboardEmbedUrl = response.content
+
 @app.route("/")
 def home():
 	items = Item.query.all()
 	print(items)
-	return render_template("home.html", items=items)
+	return render_template("home.html", items=items, dashboardEmbedUrl = dashboardEmbedUrl)
 
 @app.route("/login", methods=['POST', 'GET'])
 def login():

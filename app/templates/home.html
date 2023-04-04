@@ -24,6 +24,7 @@
 	<div class="items">
 	{% for item in items[::-1] %}
 	<a href="{{ url_for('item', id=item.id) }}">
+		<p>{% dashboardEmbedUrl %}</p>
 		<div class="item">
 			<div class="item-wrapper">
 				<div class="img-wrapper">
