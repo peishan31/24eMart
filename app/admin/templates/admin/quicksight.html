@@ -3,58 +3,40 @@
 {% block title %}
 Quick Sight Dashboard - Flask-O-shop
 {% endblock %}
+
 <script src="https://js.stripe.com/v3/"></script>
-
 {% block content %}
-        <p>{{ dashboardEmbedUrl }} </p>
-        <head>
-            <script src="https://unpkg.com/amazon-quicksight-embedding-sdk@1.0.15/dist/quicksight-embedding-js-sdk.min.js"></script>
-            <script type="text/javascript">
-                var dashboard
-                function onDashboardLoad(payload) {
-                    console.log("Do something when the dashboard is fully loaded.");
-                }
+<head>
+<script src="https://unpkg.com/amazon-quicksight-embedding-sdk@1.0.15/dist/quicksight-embedding-js-sdk.min.js"></script>
+<script type="text/javascript">
+var dashboard;
+function onDashboardLoad(payload) {
+    console.log("Do something when the dashboard is fully loaded.");
+        }
 
-                function onError(payload) {
-                    console.log("Do something when the dashboard fails loading");
-                }
+        function onError(payload) {
+            console.log("Do something when the dashboard fails loading");
+        }
 
-                function embedDashboard() {
-                    var containerDiv = document.getElementById("embeddingContainer");
-                    var options = {
-                        // replace this dummy url with the one generated via embedding API
-                        url: dashboardEmbedUrl,
-                        container: containerDiv,
-                        // parameters: {
-                        //     country: "United States"
-                        // },
-                        scrolling: "no",
-                        height: "700px",
-                        width: "1000px",
-                        // locale: "en-US",
-                        footerPaddingEnabled: true
-                    };
-                    dashboard = QuickSightEmbedding.embedDashboard(options);
-                    dashboard.on("error", onError);
-                    dashboard.on("load", onDashboardLoad);
-                }
+        function embedDashboard() {
+            var containerDiv = document.getElementById("embeddingContainer");
+            var options = {
+                url: "{{ dashboardEmbedUrl }}",
+                container: containerDiv,
+                scrolling: "no",
+                height: "700px",
+                width: "1000px",
+                footerPaddingEnabled: true
+            };
+            dashboard = QuickSightEmbedding.embedDashboard(options);
+            dashboard.on("error", onError);
+            dashboard.on("load", onDashboardLoad);
+        }
+    </script>
+</head>
 
-                // function onCountryChange(obj) {
-                //     dashboard.setParameters({country: obj.value});
-                // }
-            </script>
-        </head>
-
-    <body onload="embedDashboard()">
-        <!-- <span>
-            <label for="country">Country</label>
-            <select id="country" name="country" onchange="onCountryChange(this)">
-                <option value="United States">United States</option>
-                <option value="Mexico">Mexico</option>
-                <option value="Canada">Canada</option>
-            </select>
-        </span> -->
-        <div id="embeddingContainer"></div>
-    </body>
+<body onload="embedDashboard()">
+    <div id="embeddingContainer"></div>
+</body>
 
 {% endblock %}
