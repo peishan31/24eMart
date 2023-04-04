@@ -265,6 +265,7 @@ def create_checkout_session():
 			db.session.commit()
 			current_user.remove_from_cart(cart.item.id, cart.quantity)
 			db.session.commit()
+		send_order_email()
 		checkout_session = stripe.checkout.Session.create(
 			client_reference_id=current_user.id,
 			line_items=data,
@@ -304,7 +305,6 @@ def webhook():
 
 	if event['type'] == 'checkout.session.completed':
 		session = event['data']['object']
-		send_order_email()
 		# Fulfill the purchase...
 		fulfill_order(session)
 
