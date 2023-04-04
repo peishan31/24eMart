@@ -22,12 +22,12 @@ getDashboardUrl = 'https://vonjfookj7.execute-api.ap-southeast-1.amazonaws.com/t
 response = requests.get(getDashboardUrl)
 
 # access the response content
-dashboardEmbedUrl = response.content
+dashboardEmbedUrl = response.json()
+print(dashboardEmbedUrl)
 
 @admin.route('/')
 # @admin_only
 def dashboard():
-
     orders = Order.query.all()
     return render_template("admin/home.html", orders=orders, dashboardEmbedUrl = dashboardEmbedUrl)
 
