@@ -26,7 +26,8 @@ function onDashboardLoad(payload) {
                 scrolling: "no",
                 height: "700px",
                 width: "1000px",
-                footerPaddingEnabled: true
+                footerPaddingEnabled: true,
+                charting_remote: 'https://public.chartblocks.com/chart'
             };
             dashboard = QuickSightEmbedding.embedDashboard(options);
             dashboard.on("error", onError);
