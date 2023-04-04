@@ -7,6 +7,7 @@ import boto3
 import uuid
 from botocore.exceptions import NoCredentialsError
 import requests
+from flask import Flask, make_response
 
 admin = Blueprint("admin", __name__, url_prefix="/admin", static_folder="static", template_folder="templates")
 
@@ -33,8 +34,13 @@ def dashboard():
 @admin.route('/quicksight')
 # @admin_only
 def quicksight():
+    # create the response
+    response = make_response(render_template('quicksight.html'))
+        # set the content security policy header
+    response.headers['Content-Security-Policy'] = "frame-ancestors 'self' https://ap-southeast-1.quicksight.aws.amazon.com"
     # return redirect(dashboardEmbedUrl)
-    return render_template("admin/quicksight.html", dashboardEmbedUrl = dashboardEmbedUrl)
+    # return render_template("admin/quicksight.html", dashboardEmbedUrl = dashboardEmbedUrl)
+    return response
 
 @admin.route('/items')
 # @admin_only
