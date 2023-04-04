@@ -15,6 +15,7 @@ import boto3
 import uuid
 from botocore.config import Config
 from app import controller as dynamodb
+import requests
 	
 load_dotenv()
 app = Flask(__name__)
@@ -36,7 +37,7 @@ app.register_blueprint(admin)
 app.config["SECRET_KEY"] = "123" # TODO: research on what this secret key is for
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:12345678@rds-mysql-db.csxucthsan5l.ap-southeast-1.rds.amazonaws.com:3306/rds24emart'
-#app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///test.db"
+# app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///test.db"
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:@localhost:3306/24emart'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['MAIL_USERNAME'] = "randomemail@gmail.com" # not functional; TODO: create a dummy email
@@ -279,7 +280,7 @@ def webhook():
 
 	if event['type'] == 'checkout.session.completed':
 		session = event['data']['object']
-
+		send_order_email()
 		# Fulfill the purchase...
 		fulfill_order(session)
 
@@ -287,5 +288,17 @@ def webhook():
 	return {}, 200
 
 
-
-
+def send_order_email(self):
+	# json = {
+	# 	"email": current_user.email,
+	# }
+	api = "https://vonjfookj7.execute-api.ap-southeast-1.amazonaws.com/test/confirmorderlambdases"
+	json = {
+		"email": "noreply.24emart@gmail.com",
+	}
+	response = requests.post(f"{api}", json)
+	if response.status_code == 200:
+		print("A confirmation email on your successful order has been sent to your email")
+		self.formatted_print(response.json())
+	else:
+		print(f"Sorry, there's a {response.status_code} error with sending the email request.")
