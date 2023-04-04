@@ -33,8 +33,8 @@ def dashboard():
 @admin.route('/quicksight')
 # @admin_only
 def quicksight():
-    return redirect(dashboardEmbedUrl)
-    # return render_template("admin/quicksight.html", dashboardEmbedUrl = dashboardEmbedUrl)
+    # return redirect(dashboardEmbedUrl)
+    return render_template("admin/quicksight.html", dashboardEmbedUrl = dashboardEmbedUrl)
 
 @admin.route('/items')
 # @admin_only
