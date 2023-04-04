@@ -28,7 +28,12 @@ dashboardEmbedUrl = response.json()
 # @admin_only
 def dashboard():
     orders = Order.query.all()
-    return render_template("admin/home.html", orders=orders, dashboardEmbedUrl = dashboardEmbedUrl)
+    return render_template("admin/home.html", orders=orders)
+
+@admin.route('/quicksight')
+# @admin_only
+def quicksight():
+    return render_template("admin/quicksight.html", dashboardEmbedUrl = dashboardEmbedUrl)
 
 @admin.route('/items')
 # @admin_only
