@@ -37,7 +37,7 @@ app.register_blueprint(admin)
 app.config["SECRET_KEY"] = "123" # TODO: research on what this secret key is for
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:12345678@rds-mysql-db.csxucthsan5l.ap-southeast-1.rds.amazonaws.com:3306/rds24emart'
-# app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///test.db"
+#app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///test.db"
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:@localhost:3306/24emart'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['MAIL_USERNAME'] = "randomemail@gmail.com" # not functional; TODO: create a dummy email
@@ -76,6 +76,7 @@ S3_config = Config(signature_version='s3v4')
 @app.route("/")
 def home():
 	items = Item.query.all()
+	print(items)
 	return render_template("home.html", items=items)
 
 @app.route("/login", methods=['POST', 'GET'])
@@ -240,6 +241,7 @@ def payment_failure():
 @app.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():
 	data = json.loads(request.form['price_ids'].replace("'", '"'))
+	print(data)
 	try:
 		checkout_session = stripe.checkout.Session.create(
 			client_reference_id=current_user.id,
