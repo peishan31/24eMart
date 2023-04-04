@@ -22,7 +22,7 @@ getDashboardUrl = 'https://vonjfookj7.execute-api.ap-southeast-1.amazonaws.com/t
 response = requests.get(getDashboardUrl)
 
 # access the response content
-dashboardEmbedUrl = response
+dashboardEmbedUrl = response.content
 
 @admin.route('/')
 # @admin_only
