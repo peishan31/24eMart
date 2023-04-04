@@ -24,7 +24,7 @@ getDashboardUrl = 'https://vonjfookj7.execute-api.ap-southeast-1.amazonaws.com/t
 response = requests.get(getDashboardUrl)
 
 # access the response content
-dashboardEmbedUrl = response.json()
+dashboardEmbedUrl = response.content
 
 @admin.route('/')
 # @admin_only
@@ -37,11 +37,11 @@ def dashboard():
 def quicksight():
     # return redirect(dashboardEmbedUrl)
     # create the response
-    response = make_response(render_template("admin/quicksight.html", dashboardEmbedUrl = dashboardEmbedUrl))
+    # response = make_response(render_template("admin/quicksight.html", dashboardEmbedUrl = dashboardEmbedUrl))
     # set the content security policy header
-    response.headers['Content-Security-Policy'] = "frame-ancestors 'self' https://ap-southeast-1.quicksight.aws.amazon.com"
-    return response
-    # return render_template("admin/quicksight.html", dashboardEmbedUrl = dashboardEmbedUrl)
+    # response.headers['Content-Security-Policy'] = "frame-ancestors 'self' https://ap-southeast-1.quicksight.aws.amazon.com"
+    # return response
+    return render_template("admin/quicksight.html", dashboardEmbedUrl = dashboardEmbedUrl)
 
 @admin.route('/items')
 # @admin_only
