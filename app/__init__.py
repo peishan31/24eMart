@@ -15,6 +15,7 @@ import boto3
 import uuid
 from botocore.config import Config
 from app import controller as dynamodb
+import requests
 from .db_models import Order, Ordered_item, db, User
 	
 load_dotenv()
@@ -76,6 +77,7 @@ S3_config = Config(signature_version='s3v4')
 @app.route("/")
 def home():
 	items = Item.query.all()
+	print(items)
 	return render_template("home.html", items=items)
 
 @app.route("/login", methods=['POST', 'GET'])
@@ -240,6 +242,7 @@ def payment_failure():
 @app.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():
 	data = json.loads(request.form['price_ids'].replace("'", '"'))
+	print(data)
 	try:
 		order = Order(uid=1, date=datetime.now(), status="processing")
 		db.session.add(order)
@@ -289,16 +292,27 @@ def webhook():
 		# Invalid signature
 		return {}, 400
 
-	# if event['type'] == 'checkout.session.completed':
-	# 	session = event['data']['object']
-
-	# 	# Fulfill the purchase...
-	# 	print("sesssion: ", session)
-	# 	fulfill_order(session)
+	if event['type'] == 'checkout.session.completed':
+		session = event['data']['object']
+		send_order_email()
+		# Fulfill the purchase...
+		fulfill_order(session)
 
 	# Passed signature verification
 	return {}, 200
 
 
-
-
+def send_order_email(self):
+	# json = {
+	# 	"email": current_user.email,
+	# }
+	api = "https://vonjfookj7.execute-api.ap-southeast-1.amazonaws.com/test/confirmorderlambdases"
+	json = {
+		"email": "noreply.24emart@gmail.com",
+	}
+	response = requests.post(f"{api}", json)
+	if response.status_code == 200:
+		print("A confirmation email on your successful order has been sent to your email")
+		self.formatted_print(response.json())
+	else:
+		print(f"Sorry, there's a {response.status_code} error with sending the email request.")
