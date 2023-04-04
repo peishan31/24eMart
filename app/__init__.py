@@ -76,7 +76,6 @@ S3_config = Config(signature_version='s3v4')
 
 @app.route("/")
 def home():
-	send_order_email()
 	items = Item.query.all()
 	print(items)
 	return render_template("home.html", items=items)
