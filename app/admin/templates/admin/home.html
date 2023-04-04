@@ -19,7 +19,8 @@
     {% if not orders %}
 		<div class="flash-error">No orders have been placed yet.</div>
 	{% else %}
-    
+	<p>bello</p>
+    <iframe width="600" height="400" src="{{ dashboardEmbedUrl }}"></iframe>
     <table class="table table-striped">
         <tr>
             <th>Order id</th>
@@ -47,5 +48,3 @@
 
 	{% endif %}
 {% endblock %}
-
-<iframe width="600" height="400" src="{{ dashboardEmbedUrl }}"></iframe>
