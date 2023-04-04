@@ -6,20 +6,6 @@ Quick Sight Dashboard - Flask-O-shop
 
 <script src="https://js.stripe.com/v3/"></script>
 {% block content %}
-<head>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-      $(document).ready(function() {
-        $.get('https://ap-southeast-1.quicksight.aws.amazon.com/sn/embed/share/accounts/645583429901/dashboards/718c9d4f-36d3-4954-9906-7669680ef96b/sheets/718c9d4f-36d3-4954-9906-7669680ef96b_f6f4e906-2136-442e-9e9d-7b6aef27a6ed/visuals/718c9d4f-36d3-4954-9906-7669680ef96b_9a149087-2fc8-44f4-afd0-7f8f6c797a73?directory_alias=24emart-quicksight', function(data) {
-          $('#iframe-content').html(data);
-        });
-      });
-    </script>
-  </head>
-  <body>
-    <div id="iframe-content">{{ dashboardEmbedUrl|safe }}</div>
-  </body>
-<!-- <iframe width="600" height="400" src="https://ap-southeast-1.quicksight.aws.amazon.com/sn/embed/share/accounts/645583429901/dashboards/718c9d4f-36d3-4954-9906-7669680ef96b/sheets/718c9d4f-36d3-4954-9906-7669680ef96b_f6f4e906-2136-442e-9e9d-7b6aef27a6ed/visuals/718c9d4f-36d3-4954-9906-7669680ef96b_9a149087-2fc8-44f4-afd0-7f8f6c797a73?directory_alias=24emart-quicksight"></iframe> -->
 <!-- <head>
 <script src="https://unpkg.com/amazon-quicksight-embedding-sdk@1.0.15/dist/quicksight-embedding-js-sdk.min.js"></script>
 <script type="text/javascript">
