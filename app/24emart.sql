@@ -16,7 +16,7 @@ CREATE TABLE `users` (
 );
 
 CREATE TABLE `items` (
-	`id` INTEGER NOT NULL, 
+	`id` INTEGER NOT NULL AUTO_INCREMENT, 
 	`name` VARCHAR(100) NOT NULL, 
 	`price` FLOAT NOT NULL, 
 	`category` TEXT NOT NULL, 
@@ -27,7 +27,7 @@ CREATE TABLE `items` (
 );
 
 CREATE TABLE `cart` (
-	`id` INTEGER NOT NULL, 
+	`id` INTEGER NOT NULL AUTO_INCREMENT, 
 	`uid` INTEGER NOT NULL, 
 	`itemid` INTEGER NOT NULL, 
 	`quantity` INTEGER NOT NULL, 
@@ -37,7 +37,7 @@ CREATE TABLE `cart` (
 );
 
 CREATE TABLE `orders` (
-	`id` INTEGER NOT NULL, 
+	`id` INTEGER NOT NULL AUTO_INCREMENT, 
 	`uid` INTEGER NOT NULL, 
 	`date` DATETIME NOT NULL, 
 	`status` VARCHAR(50) NOT NULL, 
@@ -46,7 +46,7 @@ CREATE TABLE `orders` (
 );
 
 CREATE TABLE `ordered_items` (
-	`id` INTEGER NOT NULL, 
+	`id` INTEGER NOT NULL AUTO_INCREMENT, 
 	`oid` INTEGER NOT NULL, 
     `cid` INTEGER NOT NULL, 
 	`itemid` INTEGER NOT NULL, 

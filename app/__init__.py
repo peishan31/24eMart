@@ -302,17 +302,18 @@ def webhook():
 	return {}, 200
 
 
-def send_order_email(self):
+def send_order_email():
 	# json = {
 	# 	"email": current_user.email,
 	# }
 	api = "https://vonjfookj7.execute-api.ap-southeast-1.amazonaws.com/test/confirmorderlambdases"
-	json = {
-		"email": "noreply.24emart@gmail.com",
+	data = {
+		"email": "noreply.24emart@gmail.com"
 	}
-	response = requests.post(f"{api}", json)
-	if response.status_code == 200:
-		print("A confirmation email on your successful order has been sent to your email")
-		self.formatted_print(response.json())
-	else:
-		print(f"Sorry, there's a {response.status_code} error with sending the email request.")
+	try:
+		response = requests.post(api, json = data)
+		if response.status_code == 200:
+			return ("A confirmation email on your successful order has been sent to your email")
+	except Exception as e:
+		return str(e)
+		# print(f"Sorry, there's a {response.status_code} error with sending the email request.")
