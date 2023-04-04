@@ -23,7 +23,6 @@ response = requests.get(getDashboardUrl)
 
 # access the response content
 dashboardEmbedUrl = response.json()
-print(dashboardEmbedUrl)
 
 @admin.route('/')
 # @admin_only
