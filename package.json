@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "amazon-quicksight-embedding-sdk": "^2.0.3"
+  }
+}
