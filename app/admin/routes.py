@@ -10,7 +10,7 @@ import requests
 
 admin = Blueprint("admin", __name__, url_prefix="/admin", static_folder="static", template_folder="templates")
 
-S3_BUCKET = 'elasticbeanstalk-ap-southeast-1-645583429901'
+S3_BUCKET = '24emart-s3'
 AWS_ACCESS_KEY_ID = 'AKIAZMT6FMEG2AH5MEF2'
 AWS_SECRET_ACCESS_KEY = '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'
 s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
