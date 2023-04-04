@@ -6,7 +6,6 @@ from ..funcs import admin_only
 import boto3
 import uuid
 from botocore.exceptions import NoCredentialsError
-import requests
 
 admin = Blueprint("admin", __name__, url_prefix="/admin", static_folder="static", template_folder="templates")
 
@@ -14,15 +13,6 @@ S3_BUCKET = 'elasticbeanstalk-ap-southeast-1-645583429901'
 AWS_ACCESS_KEY_ID = 'AKIAZMT6FMEG2AH5MEF2'
 AWS_SECRET_ACCESS_KEY = 'jbDwEGvCQgp+bNoj5ZR6p0vhTk5YzXDpr7Eakpb3'
 s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
-
-# replace 'https://api-gateway-url' with the actual URL of your AWS API Gateway
-getDashboardUrl = 'https://vonjfookj7.execute-api.ap-southeast-1.amazonaws.com/test/quicksight'
-
-# make the API call using the requests library
-response = requests.get(getDashboardUrl)
-
-# access the response content
-dashboardEmbedUrl = response.content
 
 @admin.route('/')
 # @admin_only
