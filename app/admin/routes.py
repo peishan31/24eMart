@@ -18,13 +18,14 @@ AWS_SECRET_ACCESS_KEY = 'jbDwEGvCQgp+bNoj5ZR6p0vhTk5YzXDpr7Eakpb3'
 s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
 
 # replace 'https://api-gateway-url' with the actual URL of your AWS API Gateway
-getDashboardUrl = 'https://vonjfookj7.execute-api.ap-southeast-1.amazonaws.com/test/quicksight'
+# getDashboardUrl = 'https://vonjfookj7.execute-api.ap-southeast-1.amazonaws.com/test/quicksight'
 
 # make the API call using the requests library
-response = requests.get(getDashboardUrl)
+# response = requests.get(getDashboardUrl)
 
 # access the response content
-dashboardEmbedUrl = response.json()
+# dashboardEmbedUrl = response.json()
+dashboardEmbedUrl = 'https://ap-southeast-1.quicksight.aws.amazon.com/sn/embed/share/accounts/645583429901/dashboards/d181e3a3-3140-42fa-a4aa-1be8eab7c6b0/sheets/d181e3a3-3140-42fa-a4aa-1be8eab7c6b0_f6c4e8b9-774b-43e3-a40a-375a2ca790d5/visuals/d181e3a3-3140-42fa-a4aa-1be8eab7c6b0_49f14a84-71a5-4d8d-9a07-8b0c0c3df53b?directory_alias=24emart-quicksight'
 
 @admin.route('/')
 # @admin_only
